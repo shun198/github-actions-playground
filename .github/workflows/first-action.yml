@@ -1,0 +1,20 @@
+# ワークフロー名
+name: First Workflow
+
+# ワークフローが実行されるイベント(タイミング)をonで指定
+on: workflow_dispatch
+
+# Jobsを指定
+jobs:
+  # Jobs名を指定
+  first-job:
+    # ランナーを指定
+    runs-on: ubuntu-latest
+    # Stepsを指定
+    steps:
+      # Steps名を指定
+      - name: Print greeting
+      # 実行するコマンドを指定
+        run: echo "Hello World!"
+      - name: Print goodbye
+        run: echo "Done Bye!"
