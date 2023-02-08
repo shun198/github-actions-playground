@@ -5,3 +5,6 @@ install:
 
 run:
 	npm run dev $(ROOT_FOLDER)
+
+test:
+	npm run test $(ROOT_FOLDER)
