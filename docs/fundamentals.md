@@ -28,6 +28,24 @@
 
 などなど
 
+下記のように設定する
+
+```yml:.github/workflows/workflow.yml
+on: push
+```
+
+また、
+
+```yml:.github/workflows/workflow.yml
+on: [push, workflow_dispatch]
+```
+
+のように[]内に入れて複数定義することもできる
+
+詳しくは下記を参照
+
+https://docs.github.com/ja/actions/using-workflows/events-that-trigger-workflows
+
 ## Actions
 
 ワークフロー内で複雑な処理を簡単に実行できるためのアプリケーション
@@ -38,3 +56,5 @@ GitHub Actions の Marketplace から使用したい Action を自由に使用�
 下記の README.md にサポートしているパッケージの一覧が記載されている
 
 https://github.com/actions/runner-images/tree/main/images/linux
+
+##
