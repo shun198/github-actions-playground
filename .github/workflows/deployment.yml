@@ -22,6 +22,9 @@ jobs:
       - name: Run tests
         run: npm test
   deploy:
+    # jobsはデフォルトで並列になってしまう
+    # テストが成功したときのみデプロイを実行させたい場合はneedsを追加する
+    needs: test
     runs-on: ubuntu-latest
     defaults:
       run:
