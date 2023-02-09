@@ -32,3 +32,9 @@
 
 ワークフロー内で複雑な処理を簡単に実行できるためのアプリケーション
 GitHub Actions の Marketplace から使用したい Action を自由に使用できる
+
+## Runner
+
+下記の README.md にサポートしているパッケージの一覧が記載されている
+
+https://github.com/actions/runner-images/tree/main/images/linux
