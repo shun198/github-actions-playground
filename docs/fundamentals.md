@@ -22,4 +22,13 @@
 | イベント | 説明 |
 |-----|-----|
 | workflow_dispatch | ワークフローを手動で実行できるよう設定 |
-| a | b |
+| push | リポジトリへ push されたとき |
+| pull_request | プルリクエスト関連 |
+| schedule | 特定の時間に実行できるよう設定 |
+
+などなど
+
+## Actions
+
+ワークフロー内で複雑な処理を簡単に実行できるためのアプリケーション
+GitHub Actions の Marketplace から使用したい Action を自由に使用できる
