@@ -46,6 +46,40 @@ on: [push, workflow_dispatch]
 
 https://docs.github.com/ja/actions/using-workflows/events-that-trigger-workflows
 
+### Activity Type
+
+push などのイベントによっては複数のアクティビティの種類があります
+例えば pull_request には
+
+-   opened
+-   synchronized
+-   reopened
+
+などイベントを実行する際の条件(トリガー)を指定することができます
+(pull_request のデフォルトのアクティビティタイプは上記の 3 つのトリガー)
+
+以下のようにアクティビィタイプを指定します
+
+```
+on:
+  pull_request:
+    types:
+     - opened
+```
+
+複数の Event を指定するときは以下の通りにします
+各 Event のインデントは揃えましょう
+
+```
+on:
+  pull_request:
+    types:
+     - opened
+  workflow_dispatch:
+```
+
+### Activity Filter
+
 ## Actions
 
 ワークフロー内で複雑な処理を簡単に実行できるためのアプリケーション
@@ -57,4 +91,10 @@ GitHub Actions の Marketplace から使用したい Action を自由に使用�
 
 https://github.com/actions/runner-images/tree/main/images/linux
 
-##
+## Context
+
+https://docs.github.com/ja/actions/learn-github-actions/contexts
+
+## Expression
+
+https://docs.github.com/ja/actions/learn-github-actions/expressions
