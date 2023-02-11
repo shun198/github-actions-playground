@@ -215,6 +215,14 @@ https://docs.github.com/en/actions/learn-github-actions/variables#default-enviro
 ## Operator
 
 演算子のことです<br>
+
+-   <
+-   !
+-   &&
+-   ||
+
+などなど
+
 以下を参照
 
 https://docs.github.com/ja/actions/learn-github-actions/expressions
@@ -222,6 +230,15 @@ https://docs.github.com/ja/actions/learn-github-actions/expressions
 ## Status Check Function
 
 if condition を使用するときに Workflow のステータスを確認できます
+
+-   success
+-   always
+-   cancelled
+-   failure
+
+などなど
+
+以下を参照
 
 https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions
 

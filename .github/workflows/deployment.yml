@@ -50,14 +50,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install NodeJS
-        uses: actions/setup-node@v3
+      # - name: Install NodeJS
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18
+      #     cache: 'npm'
+      #     cache-dependency-path: 'application/package-lock.json'
+      # https://github.com/actions/cache
+      # cache-hit - A boolean value to indicate an exact match was found for the key.
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
         with:
-          node-version: 18
-          cache: 'npm'
-          cache-dependency-path: 'application/package-lock.json'
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Build
         run: npm run build
       - name: Publish JS filename
@@ -98,4 +106,4 @@ jobs:
       - name: Output Information
         run: |
           echo "Something went wrong"
-          echo "${{ github }}"
+          echo "${{ toJSON(github) }}"
