@@ -1,11 +1,28 @@
 name: Reusable Deploy
 
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      # このワークフローを呼ぶ際に変数を使用できるようにする
+      artifact-name:
+        description: The name of the artifact files
+        # falseにすると定義したinputsであるartifact-nameを任意項目にできる
+        required: false
+        # デフォルト値を指定
+        default: dist
+        # 型を指定
+        type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: List files
+        run: ls -la
       - name: Output Information
         run: echo "Deploying & uploading..."
 

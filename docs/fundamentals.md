@@ -290,6 +290,32 @@ jobs:
 
 一つのワークフローを別のワークフローで使い回すときに使用
 
+reusable.yml(今回他のワークフローでも使い回すワークフロー)
+
+```
+name: Reusable Deploy
+
+# workflow_callを必ず定義する
+on: workflow_call
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output Information
+        run: echo "Deploying & uploading..."
+```
+
+use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
+
+```
+  deploy:
+    needs: build
+    # reusable.yml内のJobsを参照させる
+    # 絶対パスを以下のように指定
+    uses: ./.github/workflows/reusable.yml
+```
+
 ## Context
 
 https://docs.github.com/ja/actions/learn-github-actions/contexts
