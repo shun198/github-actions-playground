@@ -263,6 +263,8 @@ https://docs.github.com/en/actions/learn-github-actions/expressions#status-check
 
 のバージョンで実行できる仕組み
 全てのバージョンを並列で実行できる
+Matrix を使用するとき一つの Jobs が失敗すると他の Jobs が実行されません
+(continue-on-error を追加した場合は除く)
 
 ```
 jobs:
