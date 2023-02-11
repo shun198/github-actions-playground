@@ -46,13 +46,9 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: inspect
-        run: |
-          ls -la
-          ls -la application/dist/assets
       - name: Publish JS filename
         id: publish
-        run: find application/dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
       # https://github.com/actions/upload-artifact
       # ワークフロー終了後にデータを保存したりジョブ間でデータを共有したりするときに使える
       - name: upload artifact
