@@ -15,6 +15,7 @@ on:
     outputs:
       result:
         description: The result of the deployment operation
+        # deployジョブ内のoutputs.outcomeを出力する
         value: ${{ jobs.deploy.outputs.outcome }}
 
 jobs:

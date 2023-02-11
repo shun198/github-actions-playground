@@ -312,29 +312,52 @@ on:
     # secrets:
       # some-secret:
         # required: false
+    # 出力用
+    outputs:
+      result:
+        description: The result of the deployment operation
+        # deployジョブ内のoutputs.outcomeを出力する
+        value: ${{ jobs.deploy.outputs.outcome }}
 
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.set-result.outputs.step-result }}
     runs-on: ubuntu-latest
     steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: List files
+        run: ls -la
       - name: Output Information
         run: echo "Deploying & uploading..."
+      - name: Set result output
+        id: set-result
+        run: echo "step-result=success" >> $GITHUB_OUTPUT
 ```
 
 use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
 
 ```
   deploy:
+    # jobsはデフォルトで並列になってしまう
+    # ビルドが成功したときのみデプロイを実行させたい場合はneedsを追加する
     needs: build
     # reusable.yml内のJobsを参照させる
-    # 絶対パスを以下のように指定
     uses: ./.github/workflows/reusable.yml
     with:
       artifact-name: dist-files
-    # secretsを利用することもできます
-    # secrets:
-      # sone-secret: ${{ secrets.sone-secret }}
+  print-deploy-result:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deploy output
+        run: echo "${{ needs.deploy.outputs.result }}"
 ```
+
+## Custom Actions
 
 ## Context
 
