@@ -49,8 +49,8 @@ jobs:
           # 名前は任意
           name: dist-files
           path: |
-            dist
-            package.json
+            application/dist
+            application/package.json
   deploy:
     # jobsはデフォルトで並列になってしまう
     # ビルドが成功したときのみデプロイを実行させたい場合はneedsを追加する
