@@ -26,6 +26,10 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    # https://docs.github.com/ja/actions/learn-github-actions/contexts
+    outputs:
+      # steps内のid:publishを参照
+      script-file: ${{ steps.publish.outputs.script-file }}
     defaults:
       run:
         working-directory: application
@@ -42,6 +46,9 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Publish JS filename
+        id: publish
+        run: find application/dist/assets/*.js -type f -execdir echo "script-file={}" >> $GITHUB_OUTPUT ";"
       # https://github.com/actions/upload-artifact
       # ワークフロー終了後にデータを保存したりジョブ間でデータを共有したりするときに使える
       - name: upload artifact
@@ -62,5 +69,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist-files
+      - name: Output contents
+        run: ls -la
+      - name: OutPut filename
+        run: echo "${{ needs.build.outputs.script-file }}"
       - name: Deploy
         run: echo "Deploying..."
