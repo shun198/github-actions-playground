@@ -359,6 +359,17 @@ use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
 
 ## Custom Actions
 
+カスタムアクションを作成するには action.yml に必要な設定を記載する必要があります
+今回は Cache を使う処理を共通化したいので以下のようなリポジトリ構成にします
+
+```
+├── .github
+    └── actions
+        └──cached-deps
+            └──action.yml
+    └── workflows
+```
+
 ## Context
 
 https://docs.github.com/ja/actions/learn-github-actions/contexts

@@ -1,0 +1,91 @@
+name: Deploy Project
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: application
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Load and cache dependencies
+        uses: ./.github/actions/cache
+      - name: Run tests
+        id: run-tests
+        run: npm test
+      - name: upload test report
+        # failure()を使用
+        # これを使用しないとGitHub Actions側が上記のテストが失敗したらそれ以降の処理を実行してくれない
+        # https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions
+        # stepsを使用。id: run-testsを参照
+        # https://docs.github.com/ja/actions/learn-github-actions/contexts#steps-context
+        # failure()だけチェックせずにoutcomeもチェックするのはテストが失敗した時だけテストレポートを作成してほしいから
+        if: failure() && steps.run-tests.outcome == 'failure'
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          # artifactのパスは絶対パス
+          path: application/test.json
+  # jobsはデフォルトで並列になってしまう
+  # テストが成功したときのみビルドを実行させたい場合はneedsを追加する
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    # https://docs.github.com/ja/actions/learn-github-actions/contexts
+    outputs:
+      # steps内のid:publishを参照
+      script-file: ${{ steps.publish.outputs.script-file }}
+    defaults:
+      run:
+        working-directory: application
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      # https://github.com/actions/cache
+      # cache-hit - A boolean value to indicate an exact match was found for the key.
+      - name: Load and cache dependencies
+        uses: ./.github/actions/cache
+      - name: Build
+        run: npm run build
+      - name: Publish JS filename
+        id: publish
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
+      # https://github.com/actions/upload-artifact
+      # ワークフロー終了後にデータを保存したりジョブ間でデータを共有したりするときに使える
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-files
+          # artifactのパスは絶対パス
+          path: application/dist
+          # path: |
+          #   application/dist
+          #   application/package.json
+  deploy:
+    # jobsはデフォルトで並列になってしまう
+    # ビルドが成功したときのみデプロイを実行させたい場合はneedsを追加する
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+      - name: Output contents
+        run: ls -la
+      - name: OutPut filename
+        run: echo "${{ needs.build.outputs.script-file }}"
+      - name: Deploy
+        run: echo "Deploying..."
+  report:
+    needs: [deploy]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output Information
+        run: |
+          echo "Something went wrong"
+          echo "${{ toJSON(github) }}"
