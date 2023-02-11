@@ -186,7 +186,7 @@ Cache を使ってパッケージのインストール時間を短縮できま�
      - name: Install NodeJS
        uses: actions/setup-node@v3
        with:
-        node-version: '16'
+        node-version: 16
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
 ```
@@ -252,6 +252,36 @@ if condition を使用するときに Workflow のステータスを確認でき
 以下を参照
 
 https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions
+
+## Matrix
+
+同じワークフローを複数の
+
+-   パッケージ
+-   ランナー OS
+-   言語
+
+のバージョンで実行できる仕組み
+
+```
+jobs:
+  build:
+    # 実行したいバッケージ等のバージョンを配列内にstrategyとmatrixに指定
+    strategy:
+      matrix:
+        node-version: [12, 14, 16]
+        os: [ubuntu-latest, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+```
 
 ## Context
 
