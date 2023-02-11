@@ -17,7 +17,7 @@ jobs:
         with:
           caching: 'true'
       - name: Output Information
-        run: echo "Cache used? ${{ steps.cache-deps.used-cache }}"
+        run: echo "Cache used? ${{ steps.cache-deps.outputs.used-cache }}"
       - name: Run tests
         id: run-tests
         run: npm test
