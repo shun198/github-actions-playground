@@ -204,6 +204,12 @@ https://docs.github.com/en/actions/learn-github-actions/variables#default-enviro
 
 秘匿情報を環境変数として使用する場合は secrets を使用します
 
+## 演算子
+
+以下を参照
+
+https://docs.github.com/ja/actions/learn-github-actions/expressions
+
 ## Context
 
 https://docs.github.com/ja/actions/learn-github-actions/contexts
