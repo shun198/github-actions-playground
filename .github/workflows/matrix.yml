@@ -12,11 +12,11 @@ jobs:
         # (node-version:18とubuntu-20.04が追加されない)
         include:
           - node-version: 18
-            operating-system: ubuntu-20.04
+            os: ubuntu-20.04
         # excludeを使ってnode-version:14とubuntu-20.04のみ除外
         exclude:
           - node-version: 14
-            operating-system: ubuntu-latest
+            os: ubuntu-latest
     runs-on: ${{ matrix.os }}
     defaults:
       run:
