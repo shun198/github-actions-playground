@@ -13,6 +13,9 @@ outputs:
 runs:
   # compositeが必須
   using: 'composite'
+  defaults:
+    run:
+      working-directory: application
   steps:
     - name: Cache dependencies
       if: inputs.caching == 'true'
