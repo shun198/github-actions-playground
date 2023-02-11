@@ -159,6 +159,35 @@ GitHub Actions の Marketplace から使用したい Action を自由に使用�
 
 https://github.com/actions/runner-images/tree/main/images/linux
 
+## Cache
+
+Cache を使ってパッケージのインストール時間を短縮できます
+
+```
+    - name: Cache Dependencies
+      uses: actions/cache@v3
+      with:
+        path: '**/node_modules'
+        # 一意である必要がある
+        key: node-modules-${{ hashFiles('**/package-lock.json') }}
+```
+
+hashFiles 関数を使うことで()内のファイル/フォルダが変更されるたびに
+
+hashFiles 関数についての詳細は以下の url を参照
+
+https://docs.github.com/ja/actions/learn-github-actions/expressions#hashfiles
+
+```
+'**/node_modules', '**/package-lock.json'
+```
+
+と記載することでディレクトリ構成関係なく該当するファイル/フォルダを取得できます
+
+Cache の詳細は以下を参照してください
+
+https://github.com/actions/cache
+
 ## Context
 
 https://docs.github.com/ja/actions/learn-github-actions/contexts
