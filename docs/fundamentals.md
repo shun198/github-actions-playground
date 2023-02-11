@@ -25,6 +25,27 @@ https://docs.github.com/ja/actions/managing-workflow-runs/skipping-workflow-runs
 
 ### Job Artifacts
 
+GitHub が提供している Action です
+成果物という意味でワークフロー終了後にデータを保存したりジョブ間でデータを共有したりするときに使えます
+
+-   該当するファイル/フォルダを GitHub 上にアップロード
+
+```
+    - name: upload artifact
+    　uses: actions/upload-artifact@v3
+    　with:
+        # 名前は任意
+        # 以下のファイル/フォルダがアップロードされる
+        name: dist-files
+        # アップロードしたいファイル/フォルダのパス
+        # 複数指定可
+        path: |
+        　application/dist
+        　application/package.json
+```
+
+https://github.com/actions/upload-artifact
+
 ## Steps
 
 -   Step 内で Action もしくはシェルコマンドなどを実行
