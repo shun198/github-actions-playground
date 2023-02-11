@@ -296,7 +296,22 @@ reusable.yml(今回他のワークフローでも使い回すワークフロー)
 name: Reusable Deploy
 
 # workflow_callを必ず定義する
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      # このワークフローを呼ぶ際に変数を使用できるようにする
+      artifact-name:
+        description: The name of the artifact files
+        # falseにすると定義したinputsであるartifact-nameを任意項目にできる
+        required: false
+        # デフォルト値を指定
+        default: dist
+        # 型を指定
+        type: string
+    # secretsを変数として使用することもできる
+    # secrets:
+      # some-secret:
+        # required: false
 
 jobs:
   deploy:
@@ -314,6 +329,11 @@ use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
     # reusable.yml内のJobsを参照させる
     # 絶対パスを以下のように指定
     uses: ./.github/workflows/reusable.yml
+    with:
+      artifact-name: dist-files
+    # secretsを利用することもできます
+    # secrets:
+      # sone-secret: ${{ secrets.sone-secret }}
 ```
 
 ## Context
