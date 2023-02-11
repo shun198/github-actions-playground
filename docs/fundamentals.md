@@ -286,6 +286,10 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 ```
 
+## workflow_call
+
+一つのワークフローを別のワークフローで使い回すときに使用
+
 ## Context
 
 https://docs.github.com/ja/actions/learn-github-actions/contexts
