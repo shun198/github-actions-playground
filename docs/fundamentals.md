@@ -3,12 +3,27 @@
 -   `.github/workflows`内に定義
 -   1 つ以上の Job を含む
 
+### Skip Workflow
+
+on: push または on: pull_request 時に
+コミットメッセージに以下を入れて commit するとワークフローがスキップされます
+
+-   [skip ci]
+-   [ci skip]
+-   [no ci]
+-   [skip actions]
+-   [actions skip]
+
+https://docs.github.com/ja/actions/managing-workflow-runs/skipping-workflow-runs
+
 ## Jobs
 
 -   runner を定義する
 -   デフォルトでは並列処理をする
 -   1 つ以上の Step を含む
 -   条件分岐もできる
+
+### Job Artifacts
 
 ## Steps
 
