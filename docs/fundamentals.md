@@ -78,7 +78,39 @@ on:
   workflow_dispatch:
 ```
 
-### Activity Filter
+### Event Filters
+
+イベントを実行する際のブランチなどを絞り込むことができます
+
+Event Filters の詳細は以下の通りです
+
+https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+
+#### branches
+
+特定のブランチでのみワークフローを実行
+
+```
+on:
+  push:
+    branches:
+      - main
+      # 全ての`feature/`ブランチ
+      - "feature/**"
+```
+
+#### branches-ignore
+
+特定のブランチ以外ワークフローを実行
+(指定したブランチでワークフローを実行しない)
+
+```
+on:
+  push:
+    branches-ignore:
+      # 全ての`doc/`ブランチ
+      - "doc/**"
+```
 
 ## Actions
 
