@@ -30,6 +30,6 @@ runs:
       # shellは必須
       shell: bash
     - name: Echo When Cache exists
-      if: steps.cache.outputs.cache-hit = 'true' || inputs.caching = 'true'
+      if: steps.cache.outputs.cache-hit == 'true' || inputs.caching == 'true'
       run:  echo "cache already exists >> $GITHUB_OUTPUT
       shell: bash
