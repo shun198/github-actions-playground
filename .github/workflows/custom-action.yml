@@ -15,7 +15,7 @@ jobs:
         id: cache-deps
         uses: ./.github/actions/cache
         with:
-          caching: 'true'
+          caching: 'false'
       - name: Output Information
         run: echo "Cache used? ${{ steps.cache-deps.outputs.used-cache }}"
       - name: Run tests
