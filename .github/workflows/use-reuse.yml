@@ -84,6 +84,8 @@ jobs:
     needs: build
     # reusable.yml内のJobsを参照させる
     uses: ./.github/workflows/reusable.yml
+    with:
+      artifact-name: dist-files
   report:
     needs: [deploy]
     if: failure()
