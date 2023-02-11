@@ -1,5 +1,9 @@
 APP_FOLDER=--prefix application
 
+prepare:
+	npm install $(APP_FOLDER)
+	npm run build $(APP_FOLDER)
+
 install:
 	npm install $(APP_FOLDER)
 

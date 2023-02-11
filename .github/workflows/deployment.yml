@@ -42,6 +42,15 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      # https://github.com/actions/upload-artifact
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          # 名前は任意
+          name: dist-files
+          path: |
+            dist
+            package.json
   deploy:
     # jobsはデフォルトで並列になってしまう
     # ビルドが成功したときのみデプロイを実行させたい場合はneedsを追加する
