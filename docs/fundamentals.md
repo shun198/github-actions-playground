@@ -179,14 +179,30 @@ hashFiles 関数についての詳細は以下の url を参照
 https://docs.github.com/ja/actions/learn-github-actions/expressions#hashfiles
 
 ```
-'**/node_modules', '**/package-lock.json'
+'**/node_modules'
+'**/package-lock.json'
 ```
 
-と記載することでディレクトリ構成関係なく該当するファイル/フォルダを取得できます
+という風に`**/`と記載することでディレクトリ構成関係なく該当するファイル/フォルダを取得できます
 
 Cache の詳細は以下を参照してください
 
 https://github.com/actions/cache
+
+## Environment Variables
+
+```
+env:
+  MYSQL_USER: test
+```
+
+上記のように定義することで workflow 内に環境変数を定義することができます
+また、環境変数を Step ごとに定義することもできます
+GitHub Actions が提供している環境変数です
+
+https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
+
+秘匿情報を環境変数として使用する場合は secrets を使用します
 
 ## Context
 
