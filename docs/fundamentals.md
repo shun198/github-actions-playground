@@ -365,9 +365,42 @@ use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
 ```
 ├── .github
     └── actions
-        └──cached-deps
+        └──cache
             └──action.yml
     └── workflows
+            └──custom-action.yml
+```
+
+action.yml に以下のように共通化したい処理を記載します
+今回は npm の Cache を使う処理を共通化します
+
+```
+name: "Get & Cache Dependencies"
+# onはいらない
+description: "Get the dependencies via npm and cache node modules"
+runs:
+  # compositeが必須
+  using: 'composite'
+  steps:
+    - name: Cache dependencies
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: '**/node_modules'
+        key: node-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      # shellは必須
+      shell: bash
+
+```
+
+custom-action.yml に以下のように作成した action.yml の絶対パスを指定します
+
+```
+      - name: Load and cache dependencies
+        uses: ./.github/actions/cache
 ```
 
 ## Context
