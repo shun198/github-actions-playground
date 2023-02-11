@@ -1,6 +1,6 @@
 name: Deploy Project
 
-on: [push, workflow_dispatch]
+on: push
 
 jobs:
   test:
@@ -21,10 +21,28 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
+  # jobsはデフォルトで並列になってしまう
+  # テストが成功したときのみデプロイを実行させたい場合はneedsを追加する
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: "application/package-lock.json"
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
   deploy:
     # jobsはデフォルトで並列になってしまう
     # テストが成功したときのみデプロイを実行させたい場合はneedsを追加する
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     defaults:
       run:
