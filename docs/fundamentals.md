@@ -262,6 +262,7 @@ https://docs.github.com/en/actions/learn-github-actions/expressions#status-check
 -   言語
 
 のバージョンで実行できる仕組み
+全てのバージョンを並列で実行できる
 
 ```
 jobs:
