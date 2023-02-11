@@ -43,6 +43,7 @@ jobs:
       - name: Build
         run: npm run build
       # https://github.com/actions/upload-artifact
+      # ワークフロー終了後にデータを保存したりジョブ間でデータを共有したりするときに使える
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -57,5 +58,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
       - name: Deploy
         run: echo "Deploying..."
