@@ -25,7 +25,7 @@ https://docs.github.com/ja/actions/managing-workflow-runs/skipping-workflow-runs
 
 ### Job Artifacts
 
-GitHub が提供している Action です
+GitHub が提供している Action です<br>
 成果物という意味でワークフロー終了後にデータを保存したりジョブ間でデータを共有したりするときに使えます
 
 -   該当するファイル/フォルダを GitHub 上にアップロード
@@ -76,7 +76,7 @@ on: push
 on: [push, workflow_dispatch]
 ```
 
-のように[]内に入れて複数定義することもできる
+のように`[]`内に入れて複数定義することもできる
 
 詳しくは下記を参照
 
@@ -91,7 +91,7 @@ push などのイベントによっては複数のアクティビティの種類
 -   synchronized
 -   reopened
 
-などイベントを実行する際の条件(トリガー)を指定することができます
+などイベントを実行する際の条件(トリガー)を指定することができます<br>
 (pull_request のデフォルトのアクティビティタイプは上記の 3 つのトリガー)
 
 以下のようにアクティビィタイプを指定します
@@ -145,6 +145,7 @@ on:
   push:
     branches-ignore:
       # 全ての`doc/`ブランチ
+      - "release/**
       - "doc/**"
 ```
 
@@ -155,7 +156,14 @@ GitHub Actions の Marketplace から使用したい Action を自由に使用�
 
 ## Runner
 
-下記の README.md にサポートしているパッケージの一覧が記載されている
+下記の README.md にサポートしているパッケージの一覧が記載されています<br>
+よく使われているのが`ubuntu`です
+
+```
+jobs:
+  test:
+    runs-on: ubuntu-latest
+```
 
 https://github.com/actions/runner-images/tree/main/images/linux
 
@@ -172,7 +180,7 @@ Cache を使ってパッケージのインストール時間を短縮できま�
         key: node-modules-${{ hashFiles('**/package-lock.json') }}
 ```
 
-hashFiles 関数を使うことで()内のファイル/フォルダが変更されるたびに
+hashFiles 関数を使うことで()内のファイル/フォルダが変更されるたびに key 作成時に新しいハッシュが発行されます
 
 hashFiles 関数についての詳細は以下の url を参照
 
@@ -204,11 +212,18 @@ https://docs.github.com/en/actions/learn-github-actions/variables#default-enviro
 
 秘匿情報を環境変数として使用する場合は secrets を使用します
 
-## 演算子
+## Operator
 
+演算子のことです<br>
 以下を参照
 
 https://docs.github.com/ja/actions/learn-github-actions/expressions
+
+## Status Check Function
+
+if condition を使用するときに Workflow のステータスを確認できます
+
+https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions
 
 ## Context
 

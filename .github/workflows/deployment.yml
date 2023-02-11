@@ -23,8 +23,13 @@ jobs:
         id: run-tests
         run: npm test
       - name: upload test report
+        # failure()を使用
+        # これを使用しないとGitHub Actions側が上記のテストが失敗したらそれ以降の処理を実行してくれない
+        # https://docs.github.com/en/actions/learn-github-actions/expressions#status-check-functions
+        # stepsを使用。id: run-testsを参照
         # https://docs.github.com/ja/actions/learn-github-actions/contexts#steps-context
-        if: steps.run-tests.outcome == 'failure'
+        # failure()だけチェックせずにoutcomeもチェックするのはテストが失敗した時だけテストレポートを作成してほしいから
+        if: failure() && steps.run-tests.outcome == 'failure'
         uses: actions/upload-artifact@v3
         with:
           name: test-report
