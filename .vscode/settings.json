@@ -1,5 +1,8 @@
 {
     "yaml.schemas": {
-        "https://json.schemastore.org/github-workflow.json": "file:///Users/shun/github-actions-playground/.github/workflows/use-reuse.yml"
+        "https://json.schemastore.org/github-workflow.json": [
+            "file:///Users/shun/github-actions-playground/.github/workflows/use-reuse.yml",
+            "file:///Users/shun/github-actions-playground/.github/workflows/custom-action.yml"
+        ]
     }
 }
