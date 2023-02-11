@@ -180,6 +180,17 @@ Cache を使ってパッケージのインストール時間を短縮できま�
         key: node-modules-${{ hashFiles('**/package-lock.json') }}
 ```
 
+### setup-node を使うとき
+
+```
+     - name: Install NodeJS
+       uses: actions/setup-node@v3
+       with:
+        node-version: '16'
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+```
+
 hashFiles 関数を使うことで()内のファイル/フォルダが変更されるたびに key 作成時に新しいハッシュが発行されます
 
 hashFiles 関数についての詳細は以下の url を参照
