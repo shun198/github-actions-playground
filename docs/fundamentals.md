@@ -419,12 +419,12 @@ https://docs.github.com/ja/actions/learn-github-actions/expressions
 
 詳細は以下のリンクを参照
 
-https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+https://docs.github.com/ja/actions/security-guides/security-hardening-for-github-actions
 
-https://docs.github.com/en/actions/security-guides/encrypted-secrets
+https://docs.github.com/ja/actions/security-guides/encrypted-secrets
 
-https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+https://docs.github.com/ja/actions/security-guides/automatic-token-authentication
 
 https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
 
-https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect
+https://docs.github.com/ja/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect
