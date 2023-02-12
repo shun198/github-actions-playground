@@ -1,36 +1,36 @@
 # Workflow
 
--   `.github/workflows`内に定義
--   1 つ以上の Job を含む
+- `.github/workflows`内に定義
+- 1 つ以上の Job を含む
 
 ### Skip Workflow
 
 on: push または on: pull_request 時に
 コミットメッセージに以下を入れて commit するとワークフローがスキップされます
 
--   [skip ci]
--   [ci skip]
--   [no ci]
--   [skip actions]
--   [actions skip]
+- [skip ci]
+- [ci skip]
+- [no ci]
+- [skip actions]
+- [actions skip]
 
 https://docs.github.com/ja/actions/managing-workflow-runs/skipping-workflow-runs
 
 ## Jobs
 
--   runner を定義する
--   デフォルトでは並列処理をする
--   1 つ以上の Step を含む
--   条件分岐もできる
+- runner を定義する
+- デフォルトでは並列処理をする
+- 1 つ以上の Step を含む
+- 条件分岐もできる
 
 ### Job Artifacts
 
 GitHub が提供している Action です<br>
 成果物という意味でワークフロー終了後にデータを保存したりジョブ間でデータを共有したりするときに使えます
 
--   該当するファイル/フォルダを GitHub 上にアップロード
+- 該当するファイル/フォルダを GitHub 上にアップロード
 
-```
+```yml
     - name: upload artifact
     　uses: actions/upload-artifact@v3
     　with:
@@ -48,9 +48,9 @@ https://github.com/actions/upload-artifact
 
 ## Steps
 
--   Step 内で Action もしくはシェルコマンドなどを実行
--   Step は順番に実行される(並列では実行されない)
--   条件分岐もできる
+- Step 内で Action もしくはシェルコマンドなどを実行
+- Step は順番に実行される(並列では実行されない)
+- 条件分岐もできる
 
 ## Event
 
@@ -66,13 +66,13 @@ https://github.com/actions/upload-artifact
 
 下記のように設定する
 
-```yml:.github/workflows/workflow.yml
+```yml
 on: push
 ```
 
 また、
 
-```yml:.github/workflows/workflow.yml
+```yml
 on: [push, workflow_dispatch]
 ```
 
@@ -87,30 +87,30 @@ https://docs.github.com/ja/actions/using-workflows/events-that-trigger-workflows
 push などのイベントによっては複数のアクティビティの種類があります
 例えば pull_request には
 
--   opened
--   synchronized
--   reopened
+- opened
+- synchronized
+- reopened
 
 などイベントを実行する際の条件(トリガー)を指定することができます<br>
 (pull_request のデフォルトのアクティビティタイプは上記の 3 つのトリガー)
 
 以下のようにアクティビィタイプを指定します
 
-```
+```yml
 on:
   pull_request:
     types:
-     - opened
+      - opened
 ```
 
 複数の Event を指定するときは以下の通りにします
 各 Event のインデントは揃えましょう
 
-```
+```yml
 on:
   pull_request:
     types:
-     - opened
+      - opened
   workflow_dispatch:
 ```
 
@@ -126,13 +126,13 @@ https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-ac
 
 特定のブランチでのみワークフローを実行
 
-```
+```yml
 on:
   push:
     branches:
       - main
       # 全ての`feature/`ブランチ
-      - "feature/**"
+      - 'feature/**'
 ```
 
 #### branches-ignore
@@ -140,7 +140,7 @@ on:
 特定のブランチ以外ワークフローを実行
 (指定したブランチでワークフローを実行しない)
 
-```
+```yml
 on:
   push:
     branches-ignore:
@@ -159,7 +159,7 @@ GitHub Actions の Marketplace から使用したい Action を自由に使用�
 下記の README.md にサポートしているパッケージの一覧が記載されています<br>
 よく使われているのが`ubuntu`です
 
-```
+```yml
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -171,24 +171,24 @@ https://github.com/actions/runner-images/tree/main/images/linux
 
 Cache を使ってパッケージのインストール時間を短縮できます
 
-```
-    - name: Cache Dependencies
-      uses: actions/cache@v3
-      with:
-        path: '**/node_modules'
-        # 一意である必要がある
-        key: node-modules-${{ hashFiles('**/package-lock.json') }}
+```yml
+- name: Cache Dependencies
+  uses: actions/cache@v3
+  with:
+    path: '**/node_modules'
+    # 一意である必要がある
+    key: node-modules-${{ hashFiles('**/package-lock.json') }}
 ```
 
 ### setup-node を使うとき
 
-```
-     - name: Install NodeJS
-       uses: actions/setup-node@v3
-       with:
-        node-version: 16
-        cache: 'npm'
-        cache-dependency-path: '**/package-lock.json'
+```yml
+- name: Install NodeJS
+  uses: actions/setup-node@v3
+  with:
+    node-version: 16
+    cache: 'npm'
+    cache-dependency-path: '**/package-lock.json'
 ```
 
 hashFiles 関数を使うことで()内のファイル/フォルダが変更されるたびに key 作成時に新しいハッシュが発行されます
@@ -197,7 +197,7 @@ hashFiles 関数についての詳細は以下の url を参照
 
 https://docs.github.com/ja/actions/learn-github-actions/expressions#hashfiles
 
-```
+```yml
 '**/node_modules'
 '**/package-lock.json'
 ```
@@ -210,7 +210,7 @@ https://github.com/actions/cache
 
 ## Environment Variables
 
-```
+```yml
 env:
   MYSQL_USER: test
 ```
@@ -227,10 +227,10 @@ https://docs.github.com/en/actions/learn-github-actions/variables#default-enviro
 
 演算子のことです<br>
 
--   <
--   !
--   &&
--   ||
+- <
+- !
+- &&
+- ||
 
 などなど
 
@@ -242,10 +242,10 @@ https://docs.github.com/ja/actions/learn-github-actions/expressions
 
 if condition を使用するときに Workflow のステータスを確認できます
 
--   success
--   always
--   cancelled
--   failure
+- success
+- always
+- cancelled
+- failure
 
 などなど
 
@@ -257,16 +257,16 @@ https://docs.github.com/en/actions/learn-github-actions/expressions#status-check
 
 同じワークフローを複数の
 
--   パッケージ
--   ランナー OS
--   言語
+- パッケージ
+- ランナー OS
+- 言語
 
 のバージョンで実行できる仕組み
 全てのバージョンを並列で実行できる
 Matrix を使用するとき一つの Jobs が失敗すると他の Jobs が実行されません
 (continue-on-error を追加した場合は除く)
 
-```
+```yml
 jobs:
   build:
     # 実行したいバッケージ等のバージョンを配列内にstrategyとmatrixに指定
@@ -292,7 +292,7 @@ jobs:
 
 reusable.yml(今回他のワークフローでも使い回すワークフロー)
 
-```
+```yml
 name: Reusable Deploy
 
 # workflow_callを必ず定義する
@@ -310,8 +310,8 @@ on:
         type: string
     # secretsを変数として使用することもできる
     # secrets:
-      # some-secret:
-        # required: false
+    # some-secret:
+    # required: false
     # 出力用
     outputs:
       result:
@@ -340,21 +340,21 @@ jobs:
 
 use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
 
-```
-  deploy:
-    # jobsはデフォルトで並列になってしまう
-    # ビルドが成功したときのみデプロイを実行させたい場合はneedsを追加する
-    needs: build
-    # reusable.yml内のJobsを参照させる
-    uses: ./.github/workflows/reusable.yml
-    with:
-      artifact-name: dist-files
-  print-deploy-result:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print deploy output
-        run: echo "${{ needs.deploy.outputs.result }}"
+```yml
+deploy:
+  # jobsはデフォルトで並列になってしまう
+  # ビルドが成功したときのみデプロイを実行させたい場合はneedsを追加する
+  needs: build
+  # reusable.yml内のJobsを参照させる
+  uses: ./.github/workflows/reusable.yml
+  with:
+    artifact-name: dist-files
+print-deploy-result:
+  needs: deploy
+  runs-on: ubuntu-latest
+  steps:
+    - name: Print deploy output
+      run: echo "${{ needs.deploy.outputs.result }}"
 ```
 
 ## Custom Actions
@@ -363,7 +363,7 @@ use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
 今回は Cache を使う処理を共通化したいので以下のようなリポジトリ構成にします
 
 ```
-├── .github
+└── .github
     └── actions
         └──cache
             └──action.yml
@@ -374,10 +374,10 @@ use-reuse.yml(reusable.yml 内の jobs を使用するワークフロー)
 action.yml に以下のように共通化したい処理を記載します
 今回は npm の Cache を使う処理を共通化します
 
-```
-name: "Get & Cache Dependencies"
+```yml
+name: 'Get & Cache Dependencies'
 # onはいらない
-description: "Get the dependencies via npm and cache node modules"
+description: 'Get the dependencies via npm and cache node modules'
 runs:
   # compositeが必須
   using: 'composite'
@@ -393,14 +393,13 @@ runs:
       run: npm ci
       # shellは必須
       shell: bash
-
 ```
 
 custom-action.yml に以下のように作成した action.yml の絶対パスを指定します
 
-```
-      - name: Load and cache dependencies
-        uses: ./.github/actions/cache
+```yml
+- name: Load and cache dependencies
+  uses: ./.github/actions/cache
 ```
 
 ## Context
@@ -421,7 +420,7 @@ https://docs.github.com/ja/actions/learn-github-actions/expressions
 
 たとえば issues のみ権限を付与しないなど、特定の権限を付与したい場合は permissions を使う
 
-```
+```yml
 permissions:
   issues: write
 ```
@@ -431,6 +430,12 @@ permissions:
 https://docs.github.com/ja/actions/using-jobs/assigning-permissions-to-jobs
 
 https://docs.github.com/ja/actions/security-guides/automatic-token-authentication
+
+### OpenID connect
+
+GitHub Actions を使う際に secrets に秘匿情報を入れずに IAM で認証できるようにする仕組みです
+
+https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect
 
 ### Link
 
