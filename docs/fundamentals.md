@@ -415,6 +415,23 @@ https://docs.github.com/ja/actions/learn-github-actions/expressions
 
 ### Script Injection
 
+ユーザに入力させたい値などは env を使うことを強く推奨します
+
+### Permission
+
+たとえば issues のみ権限を付与しないなど、特定の権限を付与したい場合は permissions を使う
+
+```
+permissions:
+  issues: write
+```
+
+詳細は以下の通りです
+
+https://docs.github.com/ja/actions/using-jobs/assigning-permissions-to-jobs
+
+https://docs.github.com/ja/actions/security-guides/automatic-token-authentication
+
 ### Link
 
 詳細は以下のリンクを参照
