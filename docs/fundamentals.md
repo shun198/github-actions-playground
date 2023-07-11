@@ -145,8 +145,7 @@ on:
   push:
     branches-ignore:
       # 全ての`doc/`ブランチ
-      - "release/**
-      - "doc/**"
+      - 'doc/**'
 ```
 
 ## Actions
