@@ -30,12 +30,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-      # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
       - name: Cache Node Modules
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
       - name: Cache Next.js
         uses: actions/cache@v3
         with:
