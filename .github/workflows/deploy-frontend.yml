@@ -31,6 +31,7 @@ jobs:
         with:
           node-version: '16'
       - name: Cache Node Modules
+        id: cache
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
@@ -42,6 +43,7 @@ jobs:
           path: '**/.next/cache'
           key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
       - name: Install dependencies
+        if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci --omit=dev
       - name: Build and Export
         run: npm run build
