@@ -31,13 +31,11 @@ jobs:
         with:
           node-version: '16'
       - name: Cache NodeJS
-        # id: cache
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        # if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci --omit=dev
       - name: Build and Export
         run: npm run build
