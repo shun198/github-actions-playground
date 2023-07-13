@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: '16'
       # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
-      - name: Cache Node Modules
+      - name: Cache Frontend Dependencies
         uses: actions/cache@v3
         with:
           path: |
