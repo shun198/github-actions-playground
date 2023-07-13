@@ -43,6 +43,7 @@ jobs:
       #     key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
       - name: Cache Frontend Modules
         uses: actions/cache@v3
+        # pathを統合してテスト
         with:
           path: |
             '**/node_modules'
