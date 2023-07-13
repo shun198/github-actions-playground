@@ -30,6 +30,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
+      # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
       - name: Cache NodeJS
         uses: actions/cache@v3
         with:
@@ -39,8 +40,6 @@ jobs:
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci --omit=dev
-      # Next.jsのCacheを使いたい
-      # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
       - name: Build and Export
         run: npm run build
       - name: Deploy To S3 Bucket
