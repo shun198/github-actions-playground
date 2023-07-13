@@ -44,6 +44,7 @@ jobs:
       - name: Cache Frontend Modules
         uses: actions/cache@v3
         # pathを統合してテスト
+        # .npmをCacheする
         with:
           path: |
             ~/.npm
