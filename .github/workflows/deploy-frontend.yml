@@ -21,12 +21,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # - name: configure aws credentials
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     role-to-assume: ${{ secrets.role }}
-      #     role-session-name: samplerolesession
-      #     aws-region: ${{ env.REGION_NAME }}
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::044392971793:role/github-actions-deploy-s3-bucket
+          role-session-name: samplerolesession
+          aws-region: ${{ env.REGION_NAME }}
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
@@ -37,7 +37,7 @@ jobs:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
-        run: npm ci --production
+        run: npm ci --omit=dev
       - name: Build and Export
         run: npm run build
       - name: Deploy To S3 Bucket
