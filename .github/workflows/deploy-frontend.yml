@@ -46,7 +46,7 @@ jobs:
         # pathを統合してテスト
         with:
           path: |
-            '**/node_modules'
+            ~/.npm
             ${{ github.workspace }}/.next/cache
           key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
       - name: Install dependencies
