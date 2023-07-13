@@ -34,11 +34,11 @@ jobs:
       - name: Cache NodeJS
         uses: actions/cache@v3
         with:
-          path: |
-            '**/node_modules'
-            '**/.next/cache'
+          # path: |
+          #   '**/node_modules'
+          #   '**/.next/cache'
+          path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci --omit=dev
       - name: Build and Export
