@@ -34,13 +34,10 @@ jobs:
       - name: Cache Node Modules
         uses: actions/cache@v3
         with:
-          path: '**/node_modules'
-          key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      - name: Cache Next.js
-        uses: actions/cache@v3
-        with:
-          path: '**/.next/cache'
-          key: next-js-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            '**/node_modules'
+            '**/.next/cache'
+          key: frontend-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
       - name: Install dependencies
         run: npm ci --omit=dev
       - name: Build and Export
