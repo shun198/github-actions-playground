@@ -30,26 +30,26 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-      # - name: Cache Node Modules
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: '**/node_modules'
-      #     key: node-modules-${{ hashFiles('**/package-lock.json') }}
-      # # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
-      # - name: Cache Next.js
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: '**/.next/cache'
-      #     key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
-      - name: Cache Frontend Modules
+      - name: Cache Node Modules
         uses: actions/cache@v3
-        # pathを統合してテスト
-        # .npmをCacheする
         with:
-          path: |
-            ~/.npm
-            ${{ github.workspace }}/.next/cache
+          path: '**/node_modules'
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
+      - name: Cache Next.js
+        uses: actions/cache@v3
+        with:
+          path: '**/.next/cache'
           key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
+      # - name: Cache Frontend Modules
+      #   uses: actions/cache@v3
+      #   # pathを統合してテスト
+      #   # .npmをCacheする
+      #   with:
+      #     path: |
+      #       ~/.npm
+      #       ${{ github.workspace }}/.next/cache
+      #     key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
       - name: Install dependencies
         run: npm ci --omit=dev
       - name: Build and Export
