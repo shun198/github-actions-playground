@@ -1,41 +1,58 @@
-name: Deploy Project
+name: Deploy Frontend Project to S3
 
 on:
   push:
     branches:
       - main
 
+env:
+  BUCKET_NAME: frontend-deploy-demo
+  REGION_NAME: ap-northeast-1
+
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       id-token: write # This is required for requesting the JWT
-      contents: read  # This is required for actions/checkout
+      contents: read # This is required for actions/checkout
     defaults:
       run:
         working-directory: frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # - name: configure aws credentials
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     role-to-assume: arn:aws:iam::1234567890:role/example-role
-      #     role-session-name: samplerolesession
-      #     aws-region: ap-north-east-1
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::044392971793:role/github-actions-deploy-s3-bucket
+          aws-region: ${{ env.REGION_NAME }}
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-      - name: Cache NodeJS
+          node-version: '16'
+      - name: Cache Node Modules
         uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
+      - name: Cache Next.js
+        uses: actions/cache@v3
+        with:
+          path: '**/.next/cache'
+          key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
+      # - name: Cache Frontend Modules
+      #   uses: actions/cache@v3
+      #   # pathを統合してテスト
+      #   # .npmをCacheする
+      #   with:
+      #     path: |
+      #       ~/.npm
+      #       ${{ github.workspace }}/.next/cache
+      #     key: next-js-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
       - name: Install dependencies
-        run: npm ci --production
+        run: npm ci --omit=dev
       - name: Build and Export
         run: npm run build
       - name: Deploy To S3 Bucket
-        run:
-          aws s3 sync --region ap-northeast-1 ./out s3://dummy-bucket --delete
+        run: aws s3 sync --region ${{ env.REGION_NAME }} ./out s3://${{ env.BUCKET_NAME }} --delete

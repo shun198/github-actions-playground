@@ -28,8 +28,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.artifact-name }}
-      - name: List files
-        run: ls -la
       - name: Output Information
         run: echo "Deploying & uploading..."
       - name: Set result output
