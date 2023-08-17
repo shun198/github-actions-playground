@@ -36,4 +36,5 @@ jobs:
           working-directory: ${{ env.WORKING_DIRECTORY }}
           coverage-file: ${{ env.WORKING_DIRECTORY }}
       - name: show report.json
+        if: always()
         run: ls -la
