@@ -34,3 +34,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
+          coverage-file: ${{ env.WORKING_DIRECTORY }}
+      - name: show report.json
+        run: ls -la
