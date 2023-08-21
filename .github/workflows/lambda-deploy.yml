@@ -37,4 +37,4 @@ jobs:
         # run: |
         #   zip -f package.zip backend/
         #   aws s3 cp package.zip s3://${{ env.REGION_NAME }}/
-        run: aws lambda update-function-code --function-name rotate-dockerhub-pat --zip-file fileb://lambda.zip
+        run: aws lambda update-function-code --function-name helloWorld --zip-file fileb://lambda.zip
