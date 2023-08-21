@@ -30,7 +30,7 @@ jobs:
           role-session-name: samplerolesession
           aws-region: ${{ env.REGION_NAME }}
       - name: Check Function if Exists
-        run: aws function-exists ${{ env.FUNCTION_NAME }}
+        run: aws lambda function-exists ${{ env.FUNCTION_NAME }}
       - name: Create Function
         run: |
           aws lambda create-function \
