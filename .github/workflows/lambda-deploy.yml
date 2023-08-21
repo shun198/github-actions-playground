@@ -19,9 +19,6 @@ jobs:
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read # This is required for actions/checkout
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -31,7 +28,8 @@ jobs:
           role-to-assume: arn:aws:iam::044392971793:role/lambda-deploy-demo
           role-session-name: samplerolesession
           aws-region: ${{ env.REGION_NAME }}
-      - name: Create zip file for Lambda Function
-        run: zip -r lambda.zip .
       - name: Deploy Lambda Function
-        run: aws lambda update-function-code --function-name helloWorld --zip-file fileb://lambda.zip
+        run: |
+          zip -r lambda.zip .
+          aws lambda update-function-code --function-name lambda-deploy-demo --zip-file fileb://lambda.zip
+        working-directory: backend
