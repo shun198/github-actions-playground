@@ -34,7 +34,4 @@ jobs:
       - name: Create zip file for Lambda Function
         run: zip -r lambda.zip .
       - name: Deploy Lambda Function
-        # run: |
-        #   zip -f package.zip backend/
-        #   aws s3 cp package.zip s3://${{ env.REGION_NAME }}/
         run: aws lambda update-function-code --function-name helloWorld --zip-file fileb://lambda.zip
