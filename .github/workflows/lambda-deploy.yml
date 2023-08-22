@@ -31,11 +31,9 @@ jobs:
       - name: Check Function if Exists
         run: |
           aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
-          # aws lambda get-function --function-name function-not-exists
       - name: Create Function
         run: |
-          aws lambda create-function \
-          --function-name ${{ env.FUNCTION_NAME }} \
+          aws lambda create-function --function-name ${{ env.FUNCTION_NAME }} \
           --runtime python3.11 \
           --zip-file fileb://lambda.zip \
           --handler lambda_handler
