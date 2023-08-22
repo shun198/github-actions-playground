@@ -62,7 +62,8 @@ jobs:
           # lockファイルをrequirements.txtへ出力
           # --without-hashes: 出力したファイルのハッシュを除外
           # -o(output) requirements.txt:requirements.txtとして出力
-          poetry export -f requirements.txt --without-hashes -o requirements.txt
+          poetry export -f requirements.txt --without-hashes -o requirements.txt && \
+          pip install -r requirements.txt
           zip -r lambda.zip .
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
