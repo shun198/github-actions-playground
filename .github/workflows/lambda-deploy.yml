@@ -13,6 +13,7 @@ env:
   REGION_NAME: ap-northeast-1
   FUNCTION_NAME: lambda-deploy-demo
   LAMBDA_WORKING_DIRECTORY: backend
+  LAMBDA_PACKAGE_NAME: lambda
 
 jobs:
   deploy:
@@ -56,20 +57,17 @@ jobs:
       #     --function-name ${{ env.FUNCTION_NAME }} \
       #     --zip-file fileb://lambda.zip
       #   working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
+      # lockファイルをrequirements.txtへ出力
+      # --without-hashes: 出力したファイルのハッシュを除外
+      # -o(output) requirements.txt:requirements.txtとして出力
       - name: Deploy Lambda Function
         if: steps.check-function.outcome == 'success'
         run: |
-          # lockファイルをrequirements.txtへ出力
-          # --without-hashes: 出力したファイルのハッシュを除外
-          # -o(output) requirements.txt:requirements.txtとして出力
+          mkdir -p ${{ env.LAMBDA_PACKAGE_NAME }} && \
           poetry export -f requirements.txt --without-hashes -o requirements.txt && \
-          pip install -r requirements.txt
-          ls -la
-          pwd
-          zip -r lambda.zip .
-          ls -la
-          pwd
+          pip install -r requirements.txt --target ${{ env.LAMBDA_PACKAGE_NAME }}
+          zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip .
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
-          --zip-file fileb://lambda.zip
+          --zip-file fileb://${{ env.LAMBDA_PACKAGE_NAME }}.zip
         working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
