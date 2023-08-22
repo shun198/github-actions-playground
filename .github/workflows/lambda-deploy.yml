@@ -39,6 +39,7 @@ jobs:
           --function-name ${{ env.FUNCTION_NAME }} \
           --runtime python3.11 \
           --handler lambda_handler \
+          --zip-file fileb://lambda.zip
           --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
         working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
       - name: Deploy Lambda Function
