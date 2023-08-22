@@ -33,7 +33,7 @@ jobs:
           aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
       - name: Create Function
         run: |
-          aws lambda --help
+          aws lambda
           aws lambda create-function \
           --function-name ${{ env.FUNCTION_NAME }} \
           --runtime python3.11 \
