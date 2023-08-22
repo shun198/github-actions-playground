@@ -11,8 +11,9 @@ on:
 
 env:
   REGION_NAME: ap-northeast-1
-  FUNCTION_NAME: lambda-deploy-demo
+  FUNCTION_NAME: lambda-deploy-dockerfile-demo
   LAMBDA_WORKING_DIRECTORY: backend
+  AWS_ECR_REPOSITORY_NAME: lambda-deploy-dockerfile-demo
 
 jobs:
   deploy:
@@ -26,9 +27,24 @@ jobs:
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
+          role-to-assume: arn:aws:iam::044392971793:role/lambda-deploy-demo
           role-session-name: samplerolesession
           aws-region: ${{ env.REGION_NAME }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build and push docker image to ecr
+        id: build-image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ env.AWS_ECR_REPOSITORY_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -f containers/python/Dockerfile . --tag $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "REGISTRY=$REGISTRY" >> $GITHUB_ENV
+          echo "REPOSITORY=$REPOSITORY" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
       - name: Check Function if Exists
         id: check-function
         continue-on-error: true
@@ -37,19 +53,17 @@ jobs:
       - name: Create and Deploy Lambda Function
         if: steps.check-function.outcome == 'failure'
         run: |
-          zip -r lambda.zip .
           aws lambda create-function \
           --function-name ${{ env.FUNCTION_NAME }} \
           --runtime python3.11 \
           --handler lambda_handler \
-          --zip-file fileb://lambda.zip \
+          --code $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
           --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
         working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
       - name: Deploy Lambda Function
         if: steps.check-function.outcome == 'success'
         run: |
-          zip -r lambda.zip .
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
-          --zip-file fileb://lambda.zip
+          --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
