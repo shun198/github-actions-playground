@@ -1,9 +1,13 @@
 name: lambda-deploy
 
+# on:
+#   push:
+#     branches:
+#       - main
+
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
 
 env:
   REGION_NAME: ap-northeast-1
