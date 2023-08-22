@@ -20,6 +20,9 @@ jobs:
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read # This is required for actions/checkout
+    defaults:
+      run:
+        working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -56,11 +59,11 @@ jobs:
           --handler lambda_handler \
           --zip-file fileb://lambda.zip \
           --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
-        working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
+        # working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
       - name: Deploy Lambda Function
         if: steps.check-function.outcome == 'success'
         run: |
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://lambda.zip
-        working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
+        # working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
