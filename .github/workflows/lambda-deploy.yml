@@ -30,19 +30,23 @@ jobs:
           role-session-name: samplerolesession
           aws-region: ${{ env.REGION_NAME }}
       - name: Check Function if Exists
+        id: check-function
+        continue-on-error: true
         run: |
           aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
-        # - name: Create Function
-        # run: |
-        #   zip -r lambda.zip . && \
-        #   aws lambda create-function \
-        #   --function-name ${{ env.FUNCTION_NAME }} \
-        #   --runtime python3.11 \
-        #   --handler lambda_handler \
-        #   --zip-file fileb://lambda.zip \
-        #   --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
-        # working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
+      - name: Create Function
+        if: steps.check-function.outcome == 'failure'
+        run: |
+          zip -r lambda.zip .
+          aws lambda create-function \
+          --function-name ${{ env.FUNCTION_NAME }} \
+          --runtime python3.11 \
+          --handler lambda_handler \
+          --zip-file fileb://lambda.zip \
+          --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
+        working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
       - name: Deploy Lambda Function
+        if: steps.check-function.outcome == 'success'
         run: |
           zip -r lambda.zip .
           aws lambda update-function-code \
