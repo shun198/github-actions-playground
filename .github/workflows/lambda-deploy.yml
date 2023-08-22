@@ -31,8 +31,8 @@ jobs:
           aws-region: ${{ env.REGION_NAME }}
       - name: Check Function if Exists
         run: |
-          aws lambda get-function ${{ env.FUNCTION_NAME }}
-          aws lambda get-function function-not-exists
+          aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
+          aws lambda get-function --function-name function-not-exists
       - name: Create Function
         run: |
           aws lambda create-function \
