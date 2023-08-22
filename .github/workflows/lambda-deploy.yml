@@ -34,7 +34,7 @@ jobs:
           aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
         # - name: Create Function
         # run: |
-        #   zip -r lambda.zip .
+        #   zip -r lambda.zip . && \
         #   aws lambda create-function \
         #   --function-name ${{ env.FUNCTION_NAME }} \
         #   --runtime python3.11 \
@@ -44,7 +44,7 @@ jobs:
         # working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
       - name: Deploy Lambda Function
         run: |
-          zip -r lambda.zip .
+          zip -r lambda.zip . && \
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://lambda.zip
