@@ -33,12 +33,12 @@ jobs:
           aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
       - name: Create Function
         run: |
-          aws lambda
           aws lambda create-function \
           --function-name ${{ env.FUNCTION_NAME }} \
           --runtime python3.11 \
           --zip-file fileb://lambda.zip \
           --handler lambda_handler
+          --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
       - name: Deploy Lambda Function
         run: |
           zip -r lambda.zip .
