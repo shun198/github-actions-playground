@@ -51,7 +51,7 @@ jobs:
           cp lambda_function.py ${{ env.LAMBDA_PACKAGE_NAME }}
           ls -la
           # zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip .
-          zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip ${{ env.LAMBDA_PACKAGE_NAME }}
+          zip -j ${{ env.LAMBDA_PACKAGE_NAME }}.zip ${{ env.LAMBDA_PACKAGE_NAME }}
       - name: Check Function if Exists
         id: check-function
         continue-on-error: true
