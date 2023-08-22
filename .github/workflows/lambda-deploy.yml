@@ -64,7 +64,11 @@ jobs:
           # -o(output) requirements.txt:requirements.txtとして出力
           poetry export -f requirements.txt --without-hashes -o requirements.txt && \
           pip install -r requirements.txt
+          ls -la
+          pwd
           zip -r lambda.zip .
+          ls -la
+          pwd
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://lambda.zip
