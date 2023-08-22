@@ -45,6 +45,7 @@ jobs:
           pip install --upgrade pip && pip install -r requirements.txt --target .
           rm pyproject.toml poetry.lock requirements.txt
           zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip .
+      # Lambdaが存在するか確認する
       - name: Check Function if Exists
         id: check-function
         continue-on-error: true
