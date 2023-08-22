@@ -23,6 +23,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      # Poetryのインストール
+      - name: Install poetry
+        run: pipx install poetry
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
