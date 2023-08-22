@@ -66,10 +66,10 @@ jobs:
       - name: Deploy Lambda Function
         if: steps.check-function.outcome == 'success'
         run: |
-          poetry install && \
-          poetry export -f requirements.txt --without-hashes -o requirements.txt && \
-          pip install -r requirements.txt
-          zip -r lambda.zip .
+          poetry install
+          poetry export -f requirements.txt --without-hashes -o requirements.txt
+          pip install --upgrade pip && pip install -r requirements.txt
+          zip -r lambda.zip requirements.txt
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://lambda.zip
