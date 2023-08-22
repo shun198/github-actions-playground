@@ -13,6 +13,7 @@ env:
   REGION_NAME: ap-northeast-1
   FUNCTION_NAME: lambda-deploy-demo
   LAMBDA_WORKING_DIRECTORY: backend
+  LAMBDA_PACKAGE_NAME: lambda
 
 jobs:
   deploy:
@@ -43,8 +44,8 @@ jobs:
         run: |
           poetry install
           poetry export -f requirements.txt --without-hashes -o requirements.txt
-          pip install --upgrade pip && pip install -r requirements.txt --target .
-          zip -r lambda.zip .
+          pip install --upgrade pip && pip install -r requirements.txt --target ${{ env.LAMBDA_PACKAGE_NAME }}
+          zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip .
       - name: Check Function if Exists
         id: check-function
         continue-on-error: true
