@@ -46,7 +46,7 @@ jobs:
           poetry install
           poetry export -f requirements.txt --without-hashes -o requirements.txt
           pip install --upgrade pip && pip install -r requirements.txt --target ${{ env.LAMBDA_PACKAGE_NAME }}
-          zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip ${{ env.LAMBDA_PACKAGE_NAME }}
+          zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip .
           zip ${{ env.LAMBDA_PACKAGE_NAME }}.zip lambda_function.py
       - name: Check Function if Exists
         id: check-function
@@ -62,11 +62,9 @@ jobs:
           --handler lambda_handler \
           --zip-file fileb://lambda.zip \
           --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
-        # working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
       - name: Deploy Lambda Function
         if: steps.check-function.outcome == 'success'
         run: |
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://lambda.zip
-        # working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
