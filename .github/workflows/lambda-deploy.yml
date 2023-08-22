@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+# on:
+#   pull_request:
+#     types: [opened, reopened, synchronize, ready_for_review]
+
 env:
   REGION_NAME: ap-northeast-1
   FUNCTION_NAME: lambda-deploy-demo
