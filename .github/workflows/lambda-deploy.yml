@@ -32,16 +32,16 @@ jobs:
       - name: Check Function if Exists
         run: |
           aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
-      - name: Create Function
-        run: |
-          zip -r lambda.zip .
-          aws lambda create-function \
-          --function-name ${{ env.FUNCTION_NAME }} \
-          --runtime python3.11 \
-          --handler lambda_handler \
-          --zip-file fileb://lambda.zip \
-          --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
-        working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
+        # - name: Create Function
+        # run: |
+        #   zip -r lambda.zip .
+        #   aws lambda create-function \
+        #   --function-name ${{ env.FUNCTION_NAME }} \
+        #   --runtime python3.11 \
+        #   --handler lambda_handler \
+        #   --zip-file fileb://lambda.zip \
+        #   --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
+        # working-directory: ${{ env.LAMBDA_WORKING_DIRECTORY }}
       - name: Deploy Lambda Function
         run: |
           zip -r lambda.zip .
