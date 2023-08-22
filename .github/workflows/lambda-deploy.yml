@@ -47,7 +47,7 @@ jobs:
           poetry export -f requirements.txt --without-hashes -o requirements.txt
           pip install --upgrade pip && pip install -r requirements.txt --target ${{ env.LAMBDA_PACKAGE_NAME }}
           ls -la
-          zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip ${{ env.LAMBDA_PACKAGE_NAME }}
+          zip -r ${{ env.LAMBDA_PACKAGE_NAME }}.zip ${{ env.LAMBDA_PACKAGE_NAME }}/*
           zip ${{ env.LAMBDA_PACKAGE_NAME }}.zip lambda_function.py
           ls -la
       - name: Check Function if Exists
