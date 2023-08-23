@@ -50,17 +50,17 @@ jobs:
       - name: Check Function if Exists
         id: check-function
         # continue-on-error: true
-        # run: |
-        #   aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
         run: |
-          result=$(aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} 2>&1)
-          echo "Result: $result"
-          if echo "$result" | grep -q 'ResourceNotFoundException'
-          then
-            echo "Lambda function does not exist."
-          else
-            echo "Lambda function info: $result"
-          fi
+          aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} --debug
+        # run: |
+        #   result=$(aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} 2>&1)
+        #   echo "Result: $result"
+        #   if echo "$result" | grep -q 'ResourceNotFoundException'
+        #   then
+        #     echo "Lambda function does not exist."
+        #   else
+        #     echo "Lambda function info: $result"
+        # fi
       # Lambdaが存在しない場合は新規作成し、デプロイする
       - name: Create and Deploy Lambda Function
         if: steps.check-function.outcome == 'failure'
