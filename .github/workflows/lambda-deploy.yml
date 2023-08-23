@@ -40,6 +40,7 @@ jobs:
           role-to-assume: arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
           role-session-name: samplerolesession
           aws-region: ${{ env.REGION_NAME }}
+      # zipファイルを作成
       - name: Create Zip File
         run: |
           poetry install
