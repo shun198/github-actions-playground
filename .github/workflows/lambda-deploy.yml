@@ -44,6 +44,7 @@ jobs:
       - name: Create Zip File
         run: |
           poetry install
+          # poetry内のパッケージをrequirements.txtに出力
           poetry export -f requirements.txt --without-hashes -o requirements.txt
           pip install --upgrade pip && pip install -r requirements.txt --target .
           rm pyproject.toml poetry.lock requirements.txt
