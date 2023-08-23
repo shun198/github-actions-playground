@@ -33,6 +33,7 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'poetry'
+      # OIDCを使ってAWSの認証設定を行う
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
