@@ -10,6 +10,7 @@ env:
   FUNCTION_NAME: lambda-deploy-demo
   LAMBDA_WORKING_DIRECTORY: backend
   LAMBDA_PACKAGE_NAME: lambda
+  LAMBDA_EXECUTION_ROLE: arn:aws:iam::044392971793:role/lambda-deploy-demo
 
 jobs:
   deploy:
@@ -35,7 +36,7 @@ jobs:
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
+          role-to-assume: ${{ env.LAMBDA_EXECUTION_ROLE }}
           role-session-name: samplerolesession
           aws-region: ${{ env.REGION_NAME }}
       - name: Create Zip File
@@ -48,10 +49,17 @@ jobs:
       # Lambdaが存在するか確認する
       - name: Check Function if Exists
         id: check-function
-        continue-on-error: true
+        # continue-on-error: true
         run: |
-          set -eo pipefail
-          aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} --output json
+          # aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
+          result=$(aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} 2>&1)
+          echo "$result"
+          if echo "$result" | grep -q 'ResourceNotFoundException'
+          then
+            echo "Lambda function does not exist."
+          else
+            echo "Lambda function info: $result"
+          fi
       # Lambdaが存在しない場合は新規作成し、デプロイする
       - name: Create and Deploy Lambda Function
         if: steps.check-function.outcome == 'failure'
@@ -60,11 +68,11 @@ jobs:
           --function-name ${{ env.FUNCTION_NAME }} \
           --runtime python3.11 \
           --handler lambda_handler \
-          --zip-file fileb://lambda.zip \
-          --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
+          --zip-file fileb://${{ env.LAMBDA_PACKAGE_NAME }}.zip \
+          --role ${{ env.LAMBDA_EXECUTION_ROLE }}
       - name: Deploy Lambda Function
         if: steps.check-function.outcome == 'success'
         run: |
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
-          --zip-file fileb://lambda.zip
+          --zip-file fileb://${{ env.LAMBDA_PACKAGE_NAME }}.zip
