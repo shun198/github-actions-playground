@@ -50,7 +50,8 @@ jobs:
         id: check-function
         continue-on-error: true
         run: |
-          aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
+          set -eo pipefail
+          aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} --output json
       # Lambdaが存在しない場合は新規作成し、デプロイする
       - name: Create and Deploy Lambda Function
         if: steps.check-function.outcome == 'failure'
