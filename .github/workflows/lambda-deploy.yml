@@ -36,7 +36,7 @@ jobs:
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ env.LAMBDA_EXECUTION_ROLE }}
+          role-to-assume: arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
           role-session-name: samplerolesession
           aws-region: ${{ env.REGION_NAME }}
       - name: Create Zip File
@@ -49,18 +49,9 @@ jobs:
       # Lambdaが存在するか確認する
       - name: Check Function if Exists
         id: check-function
-        # continue-on-error: true
+        continue-on-error: true
         run: |
-          aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} --debug
-        # run: |
-        #   result=$(aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} 2>&1)
-        #   echo "Result: $result"
-        #   if echo "$result" | grep -q 'ResourceNotFoundException'
-        #   then
-        #     echo "Lambda function does not exist."
-        #   else
-        #     echo "Lambda function info: $result"
-        # fi
+          aws lambda get-function --function-name ${{ env.FUNCTION_NAME }}
       # Lambdaが存在しない場合は新規作成し、デプロイする
       - name: Create and Deploy Lambda Function
         if: steps.check-function.outcome == 'failure'
@@ -70,7 +61,7 @@ jobs:
           --runtime python3.11 \
           --handler lambda_handler \
           --zip-file fileb://${{ env.LAMBDA_PACKAGE_NAME }}.zip \
-          --role ${{ env.LAMBDA_EXECUTION_ROLE }}
+          --role arn:aws:iam::044392971793:role/${{ env.FUNCTION_NAME }}
       - name: Deploy Lambda Function
         if: steps.check-function.outcome == 'success'
         run: |
